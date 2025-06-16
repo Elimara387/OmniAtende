@@ -1,4 +1,4 @@
 [
-  {"id": 1, "usuario": "dono", "senha": "1234", "tipo": "dono"},
-  {"id": 2, "usuario": "funcionario", "senha": "abcd", "tipo": "funcionario"}
+  {"id": 1, "usuario": "dono", "senha": "$2b$10$afEiJxSO1v3To5UnJJGUUusKQbzsGpgW3yfxuOpFtkjqW9W55dpf.", "tipo": "dono"},
+  {"id": 2, "usuario": "funcionario", "senha": "$2b$10$y0NrbHpjRNsinXEw/7ksuu4ZhEYT0QbdOHp8R4MWpyLEmIJtUorK.", "tipo": "funcionario"}
 ]

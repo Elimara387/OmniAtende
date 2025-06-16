@@ -1,5 +1,6 @@
 const express = require('express');
 const fs = require('fs');
+const bcrypt = require('bcrypt');
 const path = require('path');
 const session = require('express-session');
 const fluxoIA = require('../ia/fluxoIA');
@@ -17,11 +18,16 @@ function readData(file) {
   return JSON.parse(fs.readFileSync(filePath));
 }
 
+function writeData(file, data) {
+  const filePath = path.join(__dirname, '../data', file);
+  fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+}
+
 app.post('/login', (req, res) => {
   const { usuario, senha } = req.body;
   const users = readData('usuarios.json');
-  const user = users.find(u => u.usuario === usuario && u.senha === senha);
-  if (user) {
+  const user = users.find(u => u.usuario === usuario);
+  if (user && bcrypt.compareSync(senha, user.senha)) {
     req.session.user = { usuario: user.usuario, tipo: user.tipo };
     return res.json({ sucesso: true, tipo: user.tipo });
   }
@@ -33,6 +39,27 @@ function autorizado(req, res, next) {
   next();
 }
 
+function roleRequired(...roles) {
+  return (req, res, next) => {
+    if (!req.session.user || !roles.includes(req.session.user.tipo)) {
+      return res.status(403).end();
+    }
+    next();
+  };
+}
+
+app.post('/usuarios', roleRequired('dono', 'desenvolvedora'), (req, res) => {
+  const { usuario, senha, tipo } = req.body;
+  const users = readData('usuarios.json');
+  if (users.find(u => u.usuario === usuario)) {
+    return res.status(400).json({ erro: 'Usuário já existe' });
+  }
+  const novo = { id: users.length + 1, usuario, senha: bcrypt.hashSync(senha, 10), tipo };
+  users.push(novo);
+  writeData('usuarios.json', users);
+  res.json(novo);
+});
+
 app.get('/produtos', autorizado, (req, res) => {
   const produtos = readData('produtos.json');
   res.json(produtos);
@@ -41,6 +68,34 @@ app.get('/produtos', autorizado, (req, res) => {
 app.get('/entregas', autorizado, (req, res) => {
   const entregas = readData('entregas.json');
   res.json(entregas);
+});
+
+app.get('/pedidos', autorizado, (req, res) => {
+  const pedidos = readData('pedidos.json');
+  res.json(pedidos);
+});
+
+app.get('/catalogo', autorizado, (req, res) => {
+  const catalogo = readData('catalogo.json');
+  res.json(catalogo);
+});
+
+app.get('/empresa', autorizado, (req, res) => {
+  const empresa = readData('empresa.json');
+  res.json(empresa);
+});
+
+app.get('/relatorios', autorizado, (req, res) => {
+  const relatorios = readData('relatorios.json');
+  res.json(relatorios);
+});
+
+app.post('/relatorios', roleRequired('dono', 'desenvolvedora'), (req, res) => {
+  const relatorios = readData('relatorios.json');
+  const novo = { id: relatorios.length + 1, ...req.body };
+  relatorios.push(novo);
+  writeData('relatorios.json', relatorios);
+  res.json(novo);
 });
 
 app.get('/suporte', autorizado, (req, res) => {

@@ -1,0 +1,4 @@
+[
+  {"id": 1, "produto": 1, "quantidade": 2, "status": "aberto"},
+  {"id": 2, "produto": 2, "quantidade": 1, "status": "enviado"}
+]
