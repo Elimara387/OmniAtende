@@ -8,6 +8,10 @@
 <body>
   <h1>Dashboard</h1>
   <div id="resumo"></div>
+  <form id="uploadForm" enctype="multipart/form-data">
+    <input type="file" name="arquivo" accept=".csv">
+    <button type="submit">Enviar Planilha</button>
+  </form>
   <button id="modoAtendimento">Alternar IA/Humano</button>
   <div id="chat"></div>
   <script src="script.js"></script>

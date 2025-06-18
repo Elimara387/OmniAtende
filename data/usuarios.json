@@ -1,4 +1,5 @@
 [
-  {"id": 1, "usuario": "dono", "senha": "1234", "tipo": "dono"},
-  {"id": 2, "usuario": "funcionario", "senha": "abcd", "tipo": "funcionario"}
+  {"id":1,"usuario":"dev","senha":"$2a$08$J.0QkCsG.6HC3fnY5I8lruVddNyuNmR6qF60PuF40j6Frz1zw5Qqa","tipo":"desenvolvedora"},
+  {"id":2,"usuario":"dono","senha":"$2a$08$J.0QkCsG.6HC3fnY5I8lruVddNyuNmR6qF60PuF40j6Frz1zw5Qqa","tipo":"dono","empresaId":1},
+  {"id":3,"usuario":"func","senha":"$2a$08$NYW71yWvqdotz7.vI6AU7.zSwYADyRR19ym4JAO6psNBvjngV4nTm","tipo":"funcionario","empresaId":1}
 ]
