@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loginForm.addEventListener('submit', async e => {
       e.preventDefault();
       const data = Object.fromEntries(new FormData(loginForm));
-      const res = await fetch('/login', {
+      const res = await fetch('/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -19,8 +19,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const resumo = document.getElementById('resumo');
   if (resumo) {
-    fetch('/dashboard').then(r => r.json()).then(d => {
+    fetch('/api/dashboard').then(r => r.json()).then(d => {
       resumo.textContent = `Vendas: R$ ${d.totalVendas} - Pedidos: ${d.pedidos}`;
+    });
+  }
+
+  const uploadForm = document.getElementById('uploadForm');
+  if (uploadForm) {
+    uploadForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      const form = new FormData(uploadForm);
+      const res = await fetch('/api/produtos/upload', {
+        method: 'POST',
+        body: form
+      });
+      if (res.ok) alert('Upload realizado');
     });
   }
 
@@ -35,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const chat = document.getElementById('chat');
     chat.addEventListener('click', async () => {
       if (usarIA) {
-        const resp = await fetch('/ia', {
+        const resp = await fetch('/api/ia', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ pergunta: 'Ola' })

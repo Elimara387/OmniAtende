@@ -1,13 +1,12 @@
-# OmniAtende
-Plataforma de atendimento multicanal com IA integrada.
+# I Need AI
 
-## Como executar
-Instale as dependências:
+Sistema SaaS multicanal simples com IA integrada. Este projeto possui um backend em Node.js utilizando arquivos JSON como base de dados e um frontend HTML/CSS/JS.
+
+## Instalação
+
 ```bash
-npm install
-```
-Inicie o servidor:
-```bash
+./install.sh
 npm start
 ```
-O frontend ficará disponível em `http://localhost:3000`.
+
+A aplicação ficará disponível em `http://localhost:3000`.
